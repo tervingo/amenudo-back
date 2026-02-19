@@ -11,6 +11,7 @@ class Foto(BaseModel):
 class VisitaBase(BaseModel):
     fecha: date
     sitio: str = Field(min_length=1)
+    dirección: str = ""
     asistentes: list[str] = []
     fotos: list[Foto] = []
     puntuacion_comida: float = Field(default=5.0, ge=0, le=10)

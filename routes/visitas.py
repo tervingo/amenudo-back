@@ -44,7 +44,7 @@ async def get_visita(id: str):
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_visita(body: VisitaCreate):
     col = get_collection()
-    data = body.model_dump()
+    data = body.model_dump(mode='json')
     data["created_at"] = datetime.now(timezone.utc)
     result = await col.insert_one(data)
     doc = await col.find_one({"_id": result.inserted_id})
@@ -55,7 +55,7 @@ async def create_visita(body: VisitaCreate):
 @router.put("/{id}")
 async def update_visita(id: str, body: VisitaUpdate):
     col = get_collection()
-    data = body.model_dump()
+    data = body.model_dump(mode='json')
     result = await col.update_one(
         {"_id": object_id(id)},
         {"$set": data},
