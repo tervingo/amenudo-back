@@ -1,5 +1,5 @@
 from datetime import date, datetime, timezone
-from typing import Annotated
+from typing import Annotated, Optional
 from pydantic import BaseModel, Field
 
 
@@ -8,11 +8,19 @@ class Foto(BaseModel):
     public_id: str
 
 
+class Menu(BaseModel):
+    descripcion: str = ""
+    foto: Optional[Foto] = None
+    precio: Optional[float] = None
+
+
 class VisitaBase(BaseModel):
     fecha: date
     sitio: str = Field(min_length=1)
     dirección: str = ""
     asistentes: list[str] = []
+    ponente: str = ""
+    menu: Menu = Field(default_factory=Menu)
     fotos: list[Foto] = []
     puntuacion_comida: float = Field(default=5.0, ge=0, le=10)
     puntuacion_local: float = Field(default=5.0, ge=0, le=10)
